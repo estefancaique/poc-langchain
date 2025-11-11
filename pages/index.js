@@ -341,6 +341,10 @@ export default function Home() {
             function displayResults(data) {
               const details = document.getElementById("route-details");
               
+              // Obter os valores originais dos inputs para uso no Google Maps
+              const originInput = document.getElementById("origin").value.trim();
+              const destinationInput = document.getElementById("destination").value.trim();
+              
               // Criar cards visuais para melhor apresentação
               details.innerHTML = \`
                 <!-- Localizações -->
@@ -460,7 +464,7 @@ export default function Home() {
 
                 <!-- Ações Rápidas -->
                 <div class="actions-flex" style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: center;">
-                  <button onclick="window.open('https://maps.google.com/dir/\${encodeURIComponent(data.origin_name)}/\${encodeURIComponent(data.destination_name)}', '_blank')" 
+                  <button onclick="window.open('https://maps.google.com/dir/' + encodeURIComponent('\${originInput}') + '/' + encodeURIComponent('\${destinationInput}'), '_blank')" 
                     style="
                       background: linear-gradient(45deg, #4CAF50, #45a049);
                       color: white;
