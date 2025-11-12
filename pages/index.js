@@ -464,7 +464,7 @@ export default function Home() {
 
                 <!-- Ações Rápidas -->
                 <div class="actions-flex" style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: center;">
-                  <button onclick="openGoogleMaps('\${originInput}', '\${destinationInput}')" 
+                  <button onclick="openGoogleMaps('\` + originInput + \`', '\` + destinationInput + \`')" 
                     style="
                       background: linear-gradient(45deg, #4CAF50, #45a049);
                       color: white;
