@@ -1,0 +1,25 @@
+{
+  "name": "poc-langchain",
+  "version": "1.0.0",
+  "description": "POC para validar integração entre LangChain, Google APIs, OpenAI, Supabase e AWS",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
+  },
+  "dependencies": {
+    "@googlemaps/google-maps-services-js": "^3.4.2",
+    "@langchain/openai": "^1.0.0",
+    "@supabase/supabase-js": "^2.81.0",
+    "langchain": "^1.0.3",
+    "next": "^14.0.0",
+    "react": "^18.0.0",
+    "react-dom": "^18.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^8.0.0",
+    "eslint-config-next": "^14.0.0"
+  }
+}

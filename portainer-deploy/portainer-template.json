@@ -1,0 +1,60 @@
+{
+  "version": "2",
+  "templates": [
+    {
+      "type": 1,
+      "title": "POC LangChain - Calculadora de Rotas IA",
+      "description": "Aplicação web para cálculo de rotas com integração de Google Maps, OpenAI e Supabase usando LangChain",
+      "categories": [
+        "ai",
+        "maps", 
+        "webapp",
+        "langchain"
+      ],
+      "platform": "linux",
+      "logo": "https://raw.githubusercontent.com/estefancaique/poc-langchain/main/public/favicon.ico",
+      "image": "estefancaique/poc-langchain:latest",
+      "name": "poc-langchain",
+      "ports": [
+        "3000/tcp"
+      ],
+      "volumes": [],
+      "env": [
+        {
+          "name": "NODE_ENV",
+          "label": "Node Environment",
+          "default": "production",
+          "description": "Ambiente de execução do Node.js"
+        },
+        {
+          "name": "PORT",
+          "label": "Application Port",
+          "default": "3000",
+          "description": "Porta da aplicação"
+        },
+        {
+          "name": "GOOGLE_MAPS_API_KEY",
+          "label": "Google Maps API Key",
+          "description": "Chave de API do Google Maps para cálculo de rotas"
+        },
+        {
+          "name": "SUPABASE_URL",
+          "label": "Supabase URL",
+          "description": "URL do projeto Supabase para armazenamento de dados"
+        },
+        {
+          "name": "SUPABASE_ANON_KEY",
+          "label": "Supabase Anonymous Key",
+          "description": "Chave anônima do Supabase"
+        },
+        {
+          "name": "OPENAI_API_KEY",
+          "label": "OpenAI API Key",
+          "description": "Chave da API OpenAI para geração de resumos inteligentes"
+        }
+      ],
+      "restart_policy": "unless-stopped",
+      "note": "Configure todas as chaves de API antes de iniciar o container. A aplicação estará disponível na porta 3000."
+    }
+  ]
+}

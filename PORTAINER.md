@@ -1,75 +1,49 @@
-# 🐳 POC LangChain - Deploy via Portainer
+# 🐳 Deploy POC LangChain no Portainer
 
-Este guia explica como fazer deploy do POC LangChain usando Portainer (interface web para Docker).
+## 📋 Guia Completo de Deployment
 
-## 🎯 Pré-requisitos
+Este guia fornece instruções detalhadas para deployar o POC LangChain usando Portainer, incluindo resolução do erro de Docker Swarm.
 
-- Portainer CE/EE instalado e funcionando
-- Acesso admin ao Portainer
-- Docker Swarm habilitado (opcional, mas recomendado)
-- Mínimo 1GB RAM disponível
+---
 
-## 🚀 Deploy via Portainer - Método 1: Stack (Recomendado)
+## ⚠️ CORREÇÃO DE ERRO: Docker Swarm vs Standalone
 
-### 1. Preparar o Stack
-
-No Portainer, vá para **Stacks → Add Stack**
-
-**Nome do Stack:** `poc-langchain`
-
-**Docker Compose:**
-```yaml
-version: '3.8'
-
-services:
-  poc-langchain:
-    image: estefancaique/poc-langchain:latest  # Ou sua imagem Docker Hub
-    container_name: poc-langchain-app
-    restart: unless-stopped
-    ports:
-      - "3000:3000"
-    environment:
-      - NODE_ENV=production
-      - PORT=3000
-      - HOSTNAME=0.0.0.0
-      - GOOGLE_MAPS_API_KEY=${GOOGLE_MAPS_API_KEY}
-      - SUPABASE_URL=${SUPABASE_URL}
-      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
-      - OPENAI_API_KEY=${OPENAI_API_KEY}
-    healthcheck:
-      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-    networks:
-      - poc-network
-    deploy:
-      resources:
-        limits:
-          memory: 512M
-        reservations:
-          memory: 256M
-
-networks:
-  poc-network:
-    driver: bridge
+**Problema Comum:**
+```
+The network poc-langchain_poc-network cannot be used with services. Only networks scoped to the swarm can be used
 ```
 
-### 2. Configurar Variáveis de Ambiente
+**Solução:** Use o arquivo correto baseado no seu ambiente Portainer.
 
-Na seção **Environment variables** do Portainer:
+---
 
+## 🚀 Método 1: Via Stack Upload (Recomendado)
+
+### **Para Portainer Standalone (Docker Compose)**
+```bash
+# 1. Prepare os arquivos
+./prepare-portainer.sh
+
+# 2. No Portainer
+- Stacks → Add stack  
+- Name: poc-langchain
+- Build method: Upload
+- Upload: poc-langchain-portainer.zip
+- Compose file: portainer-standalone.yml  ← IMPORTANTE: Use este para standalone
 ```
-GOOGLE_MAPS_API_KEY=sua_chave_google_maps
-SUPABASE_URL=https://seu-projeto.supabase.co
-SUPABASE_ANON_KEY=sua_chave_supabase
-OPENAI_API_KEY=sk-sua_chave_openai
+
+### **Para Portainer Swarm Mode**
+```bash
+# 1. Prepare os arquivos
+./prepare-portainer.sh
+
+# 2. No Portainer
+- Stacks → Add stack
+- Name: poc-langchain  
+- Build method: Upload
+- Upload: poc-langchain-portainer.zip
+- Compose file: portainer-swarm.yml  ← IMPORTANTE: Use este para swarm
 ```
-
-### 3. Deploy do Stack
-
-Clique em **Deploy the stack**
 
 ## 🏗️ Deploy via Portainer - Método 2: Container Manual
 

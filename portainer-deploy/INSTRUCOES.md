@@ -1,30 +1,3 @@
-#!/bin/bash
-# Script para preparar os arquivos para deploy no Portainer
-
-echo "🐳 Preparando arquivos para deploy no Portainer..."
-
-# Criar diretório para arquivos do Portainer
-mkdir -p portainer-deploy
-
-# Copiar arquivos necessários
-cp Dockerfile portainer-deploy/
-cp .dockerignore portainer-deploy/
-cp package.json portainer-deploy/
-cp package-lock.json portainer-deploy/
-cp next.config.js portainer-deploy/
-cp -r pages portainer-deploy/
-cp -r lib portainer-deploy/
-cp -r public portainer-deploy/
-
-# Copiar arquivos de configuração do Portainer
-cp portainer-stack.yml portainer-deploy/
-cp portainer-standalone.yml portainer-deploy/
-cp portainer-swarm.yml portainer-deploy/
-cp portainer-build.yml portainer-deploy/
-cp portainer-template.json portainer-deploy/
-
-# Criar arquivo de instruções
-cat > portainer-deploy/INSTRUCOES.md << 'EOF'
 # 📋 Instruções para Deploy no Portainer
 
 ## ⚠️ IMPORTANTE: Escolha o arquivo correto!
@@ -87,22 +60,3 @@ cat > portainer-deploy/INSTRUCOES.md << 'EOF'
 - Use **portainer-swarm.yml** se estiver em modo Swarm
 - Use **portainer-standalone.yml** se estiver em modo Standalone
 
-EOF
-
-# Compactar tudo
-cd portainer-deploy
-zip -r ../poc-langchain-portainer.zip .
-cd ..
-
-echo "✅ Arquivos preparados!"
-echo ""
-echo "📦 Arquivo criado: poc-langchain-portainer.zip"
-echo "📁 Diretório: portainer-deploy/"
-echo ""
-echo "🚀 Próximos passos:"
-echo "1. Envie o arquivo .zip para seu servidor"
-echo "2. No Portainer: Stacks → Add stack → Upload"
-echo "3. Configure as variáveis de ambiente"
-echo "4. Deploy!"
-echo ""
-echo "📖 Leia o arquivo INSTRUCOES.md para detalhes completos"
