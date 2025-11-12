@@ -1,74 +1,53 @@
-# POC LangChain - Route Calculator
+# 🚀 POC LangChain - Calculadora de Rotas Inteligentes
 
-## Visão Geral
-Prova de conceito para validar integração mínima entre LangChain, Google Places/Directions APIs, OpenAI, Supabase e AWS. O projeto demonstra um sistema simples de cálculo de rotas com resumos gerados por IA.
+> Proof of Concept demonstrando integração entre LangChain, Google Maps APIs, OpenAI e Supabase
 
-## Tecnologias
-- **Frontend**: HTML + Vanilla JS (sem frameworks, sem Tailwind)
-- **Backend**: Next.js (API Routes)
-- **Orquestração**: LangChain (Google APIs + OpenAI)
-- **Banco**: Supabase (PostgreSQL)
-- **IA**: OpenAI GPT-4o mini
-- **Mapas**: Google Places API + Directions API + Static Maps API
-- **Deploy**: Vercel (frontend + backend) + AWS
+## 🎯 Visão Geral
 
-## Funcionalidades
-1. **Interface Simples**: Formulário HTML com campos de origem e destino
-2. **Cálculo de Rota**: Integração com Google APIs via LangChain
-3. **Armazenamento**: Histórico de rotas no Supabase
-4. **Resumo IA**: Descrição inteligente da rota via OpenAI
-5. **Visualização**: Mapa estático e informações detalhadas da rota
+Este projeto é um POC que demonstra uma aplicação completa de cálculo de rotas com resumos inteligentes gerados por IA. A aplicação utiliza LangChain para orquestrar chamadas para diferentes APIs e criar uma experiência integrada.
 
-## Variáveis de Ambiente
-Copie `.env.example` para `.env.local` e configure:
+## 🏗️ Arquitetura
+
+```
+Frontend → Next.js API → LangChain → Google APIs + OpenAI + Supabase
+```
+
+- **Frontend**: Next.js com interface responsiva
+- **Orquestração**: LangChain para coordenar APIs
+- **Geocoding**: Google Places API
+- **Rotas**: Google Directions API
+- **IA**: OpenAI GPT-4o mini para resumos
+- **Database**: Supabase PostgreSQL
+- **Deploy**: Docker multi-arch + Traefik
+
+## 🚀 Deploy Rápido
+
+A imagem está disponível no Docker Hub: `esteancaique/poc-langchain:latest`
+
 ```bash
-GOOGLE_MAPS_API_KEY=your_key_here
-SUPABASE_URL=your_project_url
-SUPABASE_ANON_KEY=your_anon_key
-OPENAI_API_KEY=your_openai_key
+# Configure as variáveis de ambiente
+export GOOGLE_MAPS_API_KEY=sua_chave
+export SUPABASE_URL=https://projeto.supabase.co  
+export SUPABASE_ANON_KEY=sua_chave
+export OPENAI_API_KEY=sk-sua_chave
+
+# Deploy com Docker Stack
+docker stack deploy -c docker-compose.production.yml poc-langchain
 ```
 
-## Como Executar
-```bash
-# Instalar dependências
-npm install
+## 📖 Documentação Completa
 
-# Executar em desenvolvimento
-npm run dev
+- **Deploy**: `DEPLOY.md` - Guia de deployment em produção
+- **Database**: `supabase-schema.sql` - Schema do banco
 
-# Build para produção
-npm run build
+## ✅ Status
 
-# Deploy no Vercel
-vercel --prod
-```
+- ✅ Frontend responsivo funcionando
+- ✅ Pipeline LangChain completo  
+- ✅ Integração com todas as APIs
+- ✅ Docker multi-arch disponível
+- ✅ Deploy em produção configurado
 
-## Estrutura do Projeto
-```
-poc-langchain/
-├── pages/
-│   ├── api/route.js      # Endpoint principal
-│   └── index.js          # Página HTML
-├── lib/
-│   ├── langchain/        # Orquestração LangChain
-│   ├── google/           # Integração Google APIs
-│   ├── supabase/         # Cliente Supabase
-│   └── openai/           # Integração OpenAI
-└── public/
-    └── index.html        # Frontend simples
-```
+## 🎮 Demo
 
-## Fluxo de Dados
-1. Usuário insere origem e destino
-2. `/api/route` processa via LangChain:
-   - Google Places → coordenadas
-   - Google Directions → rota
-   - Supabase → armazenamento
-   - OpenAI → resumo
-3. Frontend exibe resultados completos
-
-## Deploy
-- **Frontend + Backend**: Vercel
-- **Banco**: Supabase
-- **Assets**: AWS (se necessário)
-Criar uma POC em Next.js com API Route /api/route em TypeScript que usa LangChain + OpenAI (GPT-4o mini), Google Places, Directions e Static Maps, e Supabase para log de rotas. Frontend simples em public/index.html (HTML + JS puro) com campos origem/destino que chama /api/route e exibe distância, duração, mapa e resumo em português. Incluir .env.example e README com instruções de setup e deploy Vercel.
+Acesse: `https://poc.wizeai.cloud` (quando deployado)

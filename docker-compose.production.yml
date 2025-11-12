@@ -1,0 +1,43 @@
+version: "3.7"
+
+services:
+  poc-langchain:
+    image: esteancaique/poc-langchain:latest   # garanta tag compatível com a arquitetura do nó (multi-arch/arm64/amd64)
+    environment:
+      NODE_ENV: production
+      PORT: 3000
+      HOSTNAME: 0.0.0.0
+      GOOGLE_MAPS_API_KEY: ${GOOGLE_MAPS_API_KEY}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_ANON_KEY: ${SUPABASE_ANON_KEY}
+      OPENAI_API_KEY: ${OPENAI_API_KEY}
+    networks:
+      - wiseai
+    deploy:
+      restart_policy:
+        condition: any
+      labels:
+        - traefik.enable=true
+        - traefik.docker.network=wiseai
+
+        # Router HTTPS (principal)
+        - traefik.http.routers.poclangchain.rule=Host(`poc.wizeai.cloud`)
+        - traefik.http.routers.poclangchain.entrypoints=websecure
+        - traefik.http.routers.poclangchain.tls.certresolver=letsencryptresolver
+        - traefik.http.routers.poclangchain.priority=1
+        - traefik.http.routers.poclangchain.service=poclangchain_svc
+
+        # Serviço apontando para a porta interna do app
+        - traefik.http.services.poclangchain_svc.loadbalancer.server.port=3000
+        - traefik.http.services.poclangchain_svc.loadbalancer.passHostHeader=1
+
+        # (Opcional) Router HTTP que redireciona para HTTPS
+        - traefik.http.routers.poclangchain-http.rule=Host(`poc.wizeai.cloud`)
+        - traefik.http.routers.poclangchain-http.entrypoints=web
+        - traefik.http.routers.poclangchain-http.middlewares=redirect-to-https
+        - traefik.http.middlewares.redirect-to-https.redirectscheme.scheme=https
+
+networks:
+  wiseai:
+    external: true
+    name: wiseai
