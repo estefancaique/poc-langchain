@@ -269,6 +269,15 @@ export default function Home() {
 
       <script dangerouslySetInnerHTML={{
         __html: `
+          // Função global para abrir Google Maps
+          window.openGoogleMaps = function(origin, destination) {
+            const baseUrl = 'https://www.google.com/maps/dir/';
+            const fullUrl = baseUrl + '?api=1&origin=' + encodeURIComponent(origin) + '&destination=' + encodeURIComponent(destination) + '&travelmode=driving';
+            
+            console.log('Abrindo Google Maps:', fullUrl);
+            window.open(fullUrl, '_blank');
+          };
+
           document.addEventListener("DOMContentLoaded", function() {
             
             async function calculateRoute() {
@@ -501,16 +510,6 @@ export default function Home() {
                 </div>
               \`;
               document.getElementById("results").style.display = "block";
-            }
-
-            // Função para abrir Google Maps com redirect confiável
-            function openGoogleMaps(origin, destination) {
-              // Usar formato de query parameters para melhor compatibilidade
-              const baseUrl = 'https://www.google.com/maps/dir/';
-              const fullUrl = baseUrl + '?api=1&origin=' + encodeURIComponent(origin) + '&destination=' + encodeURIComponent(destination) + '&travelmode=driving';
-              
-              console.log('Abrindo Google Maps:', fullUrl);
-              window.open(fullUrl, '_blank');
             }
 
             document.getElementById("calculate-btn").addEventListener("click", calculateRoute);
