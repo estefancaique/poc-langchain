@@ -464,7 +464,7 @@ export default function Home() {
 
                 <!-- Ações Rápidas -->
                 <div class="actions-flex" style="display: flex; gap: 1rem; margin-top: 2rem; justify-content: center;">
-                  <button onclick="window.open('https://maps.google.com/dir/' + encodeURIComponent('\${originInput}') + '/' + encodeURIComponent('\${destinationInput}'), '_blank')" 
+                  <button onclick="openGoogleMaps('\${originInput}', '\${destinationInput}')" 
                     style="
                       background: linear-gradient(45deg, #4CAF50, #45a049);
                       color: white;
@@ -501,6 +501,16 @@ export default function Home() {
                 </div>
               \`;
               document.getElementById("results").style.display = "block";
+            }
+
+            // Função para abrir Google Maps com redirect confiável
+            function openGoogleMaps(origin, destination) {
+              // Usar formato de query parameters para melhor compatibilidade
+              const baseUrl = 'https://www.google.com/maps/dir/';
+              const fullUrl = baseUrl + '?api=1&origin=' + encodeURIComponent(origin) + '&destination=' + encodeURIComponent(destination) + '&travelmode=driving';
+              
+              console.log('Abrindo Google Maps:', fullUrl);
+              window.open(fullUrl, '_blank');
             }
 
             document.getElementById("calculate-btn").addEventListener("click", calculateRoute);
