@@ -2,6 +2,10 @@
 const nextConfig = {
   reactStrictMode: true,
   swcMinify: true,
+  output: 'standalone', // Para Docker deployment
+  experimental: {
+    outputFileTracingRoot: undefined,
+  },
   env: {
     GOOGLE_MAPS_API_KEY: process.env.GOOGLE_MAPS_API_KEY,
     SUPABASE_URL: process.env.SUPABASE_URL,
